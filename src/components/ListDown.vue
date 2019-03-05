@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-aside>
+    <el-aside width="290px">
       <div class="content">
         <div class="tabs">
           <a v-on:click="activetab=1;showImage=false" v-bind:class="[ activetab === 1 ? 'active' : '' ]">Tab 1</a>
@@ -8,43 +8,50 @@
           <a v-on:click="activetab=3;showImage=false" v-bind:class="[ activetab === 3 ? 'active' : '' ]">Tab 3</a>
         </div>
         <div v-if="activetab === 1" class="tabcontent">
-          <el-menu >
-            <el-submenu v-for="(group,unverifiedIndex) in groups.unverified" :index="'1-'+unverifiedIndex" >
-              <template slot="title"><span class="bold">{{group.boss}}({{group.minion.length}})</span></template>
-              <el-menu-item-group >
-                <el-menu-item class="border" v-for="(minion,unverifiedChildIndex) in group.minion"
-                              :index="'1-'+unverifiedIndex+'-'+unverifiedChildIndex" @click="showHideImage(minion)">
-                  <template slot="title">{{minion}}</template>
-                </el-menu-item>
-              </el-menu-item-group>
-            </el-submenu>
-          </el-menu>
+          <vue-custom-scrollbar class="scroll-area" settings='maxScrollbarLength: 30'>
+            <el-menu>
+              <el-submenu v-for="(group,unverifiedIndex) in groups.unverified" :index="'1-'+unverifiedIndex" >
+                <template slot="title"><span class="bold">{{group.boss}}({{group.minion.length}})</span><i style="font-size: 15px;" class='el-icon-question'></i></template>
+
+                <el-menu-item-group>
+                  <el-menu-item class="border" v-for="(minion,unverifiedChildIndex) in group.minion"
+                                :index="'1-'+unverifiedIndex+'-'+unverifiedChildIndex" @click="showHideImage(minion)">
+                    <template slot="title">{{minion}}</template>
+                  </el-menu-item>
+                </el-menu-item-group>
+              </el-submenu>
+            </el-menu>
+          </vue-custom-scrollbar>
         </div>
         <div v-if="activetab === 2" class="tabcontent">
-          <el-menu>
-            <el-submenu v-for="(group,verifiedIndex) in groups.verified" :index="'2-'+verifiedIndex">
-              <template slot="title"><span class="bold">{{group.boss}}({{group.minion.length}})</span></template>
-              <el-menu-item-group>
-                <el-menu-item v-for="(minion,verifiedChildIndex) in group.minion"
-                              :index="'2-'+verifiedIndex+'-'+verifiedChildIndex">
-                  <template slot="title">{{minion}}</template>
-                </el-menu-item>
-              </el-menu-item-group>
-            </el-submenu>
-          </el-menu>
+          <vue-custom-scrollbar class="scroll-area" settings='maxScrollbarLength: 30'>
+            <el-menu>
+              <el-submenu v-for="(group,verifiedIndex) in groups.verified" :index="'2-'+verifiedIndex">
+                <template slot="title"><span class="bold">{{group.boss}}({{group.minion.length}})</span></template>
+                <el-menu-item-group>
+                  <el-menu-item v-for="(minion,verifiedChildIndex) in group.minion"
+                                :index="'2-'+verifiedIndex+'-'+verifiedChildIndex">
+                    <template slot="title">{{minion}}</template>
+                  </el-menu-item>
+                </el-menu-item-group>
+              </el-submenu>
+            </el-menu>
+          </vue-custom-scrollbar>
         </div>
         <div v-if="activetab === 3" class="tabcontent">
-          <el-menu>
-            <el-submenu v-for="(group,approvedIndex) in groups.approved" :index="'3-'+approvedIndex">
-              <template slot="title"><span class="bold">{{group.boss}}({{group.minion.length}})</span></template>
-              <el-menu-item-group>
-                <el-menu-item v-for="(minion,approvedChildIndex) in group.minion"
-                              :index="'3-'+approvedIndex+'-'+approvedChildIndex">
-                  <template slot="title">{{minion}}</template>
-                </el-menu-item>
-              </el-menu-item-group>
-            </el-submenu>
-          </el-menu>
+          <vue-custom-scrollbar class="scroll-area" settings='maxScrollbarLength: 30'>
+            <el-menu>
+              <el-submenu v-for="(group,approvedIndex) in groups.approved" :index="'3-'+approvedIndex">
+                <template slot="title"><span class="bold">{{group.boss}}({{group.minion.length}})</span></template>
+                <el-menu-item-group>
+                  <el-menu-item v-for="(minion,approvedChildIndex) in group.minion"
+                                :index="'3-'+approvedIndex+'-'+approvedChildIndex">
+                    <template slot="title">{{minion}}</template>
+                  </el-menu-item>
+                </el-menu-item-group>
+              </el-submenu>
+            </el-menu>
+          </vue-custom-scrollbar>
         </div>
       </div>
     </el-aside>
@@ -57,9 +64,14 @@
 </template>
 
 <script>
+  import vueCustomScrollbar from 'vue-custom-scrollbar'
+
   export default {
     name: "listDown",
-    props: ['groups', 'activetabProp','showImageProp'],
+    props: ['groups', 'activetabProp', 'showImageProp'],
+    components: {
+      vueCustomScrollbar
+    },
     data() {
       return {
         activetab: this.activetabProp,
@@ -73,10 +85,10 @@
         this.currentPic = minion;
       },
       getImgUrl(currentPic) {
-        if (!this.currentPic){
+        if (!this.currentPic) {
           return
         }
-        return require('../assets/'+currentPic+'.png')
+        return require('../assets/' + currentPic + '.png')
       }
     },
 
@@ -125,6 +137,7 @@
     background-color: #f1f1f1;
     border-radius: 10px 10px 0 0;
     font-weight: bold;
+    color: #aaa;
   }
 
   .tabs a:last-child {
@@ -139,8 +152,8 @@
 
   /* Styling for active tab */
   .tabs a.active {
-    background-color: #fff;
-    color: #484848;
+    background-color: #004087;
+    color: #fff;
     border-bottom: 2px solid #fff;
     cursor: default;
   }
@@ -158,8 +171,14 @@
   }
 
   .border {
-    border-up:1px solid black;
-    border-bottom:1px solid black;
+    border-up: 1px solid black;
+    border-bottom: 1px solid black;
   }
 
+  .scroll-area {
+    position: relative;
+    margin: auto;
+    width: 250px;
+    height: 400px;
+  }
 </style>
