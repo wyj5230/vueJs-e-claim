@@ -1,19 +1,19 @@
 <template>
   <el-container>
     <el-aside>
-      <div class="tabs">
-        <a v-on:click="activetab=1" v-bind:class="[ activetab === 1 ? 'active' : '' ]">Tab 1</a>
-        <a v-on:click="activetab=2" v-bind:class="[ activetab === 2 ? 'active' : '' ]">Tab 2</a>
-        <a v-on:click="activetab=3" v-bind:class="[ activetab === 3 ? 'active' : '' ]">Tab 3</a>
-      </div>
       <div class="content">
+        <div class="tabs">
+          <a v-on:click="activetab=1;showImage=false" v-bind:class="[ activetab === 1 ? 'active' : '' ]">Tab 1</a>
+          <a v-on:click="activetab=2;showImage=false" v-bind:class="[ activetab === 2 ? 'active' : '' ]">Tab 2</a>
+          <a v-on:click="activetab=3;showImage=false" v-bind:class="[ activetab === 3 ? 'active' : '' ]">Tab 3</a>
+        </div>
         <div v-if="activetab === 1" class="tabcontent">
-          <el-menu>
-            <el-submenu v-for="(group,unverifiedIndex) in groups.unverified" :index="unverifiedIndex">
+          <el-menu >
+            <el-submenu v-for="(group,unverifiedIndex) in groups.unverified" :index="'1-'+unverifiedIndex" >
               <template slot="title"><span class="bold">{{group.boss}}({{group.minion.length}})</span></template>
-              <el-menu-item-group>
-                <el-menu-item v-for="(minion,unverifiedChildIndex) in group.minion"
-                              :index="unverifiedIndex+'-'+unverifiedChildIndex">
+              <el-menu-item-group >
+                <el-menu-item class="border" v-for="(minion,unverifiedChildIndex) in group.minion"
+                              :index="'1-'+unverifiedIndex+'-'+unverifiedChildIndex" @click="showHideImage(minion)">
                   <template slot="title">{{minion}}</template>
                 </el-menu-item>
               </el-menu-item-group>
@@ -22,11 +22,11 @@
         </div>
         <div v-if="activetab === 2" class="tabcontent">
           <el-menu>
-            <el-submenu v-for="(group,verifiedIndex) in groups.verified" :index="verifiedIndex">
+            <el-submenu v-for="(group,verifiedIndex) in groups.verified" :index="'2-'+verifiedIndex">
               <template slot="title"><span class="bold">{{group.boss}}({{group.minion.length}})</span></template>
               <el-menu-item-group>
                 <el-menu-item v-for="(minion,verifiedChildIndex) in group.minion"
-                              :index="verifiedIndex+'-'+verifiedChildIndex">
+                              :index="'2-'+verifiedIndex+'-'+verifiedChildIndex">
                   <template slot="title">{{minion}}</template>
                 </el-menu-item>
               </el-menu-item-group>
@@ -35,11 +35,11 @@
         </div>
         <div v-if="activetab === 3" class="tabcontent">
           <el-menu>
-            <el-submenu v-for="(group,approvedIndex) in groups.approved" index="approvedIndex">
+            <el-submenu v-for="(group,approvedIndex) in groups.approved" :index="'3-'+approvedIndex">
               <template slot="title"><span class="bold">{{group.boss}}({{group.minion.length}})</span></template>
               <el-menu-item-group>
                 <el-menu-item v-for="(minion,approvedChildIndex) in group.minion"
-                              :index="approvedIndex+'-'+approvedChildIndex">
+                              :index="'3-'+approvedIndex+'-'+approvedChildIndex">
                   <template slot="title">{{minion}}</template>
                 </el-menu-item>
               </el-menu-item-group>
@@ -50,8 +50,7 @@
     </el-aside>
     <el-container v-if="showImage">
       <el-main>
-        <img src="https://media.wired.com/photos/598e35994ab8482c0d6946e0/master/w_2400,c_limit/phonepicutres-TA.jpg"
-             height="550"/>
+        <img :src="getImgUrl(currentPic)" v-bind:alt="currentPic" height="550"/>
       </el-main>
     </el-container>
   </el-container>
@@ -60,11 +59,26 @@
 <script>
   export default {
     name: "listDown",
-    props: ['groups', 'activetab'],
+    props: ['groups', 'activetabProp','showImageProp'],
     data() {
-      return {}
+      return {
+        activetab: this.activetabProp,
+        showImage: this.showImageProp,
+        currentPic: ''
+      }
     },
-    methods: {},
+    methods: {
+      showHideImage(minion) {
+        this.showImage = true;
+        this.currentPic = minion;
+      },
+      getImgUrl(currentPic) {
+        if (!this.currentPic){
+          return
+        }
+        return require('../assets/'+currentPic+'.png')
+      }
+    },
 
   }
 </script>
@@ -141,6 +155,11 @@
     font-weight: bold;
     font-size: medium;
     font-family: Montserrat;
+  }
+
+  .border {
+    border-up:1px solid black;
+    border-bottom:1px solid black;
   }
 
 </style>

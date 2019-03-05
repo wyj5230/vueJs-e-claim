@@ -2,7 +2,7 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <el-input type="text" placeholder="testing"></el-input>
-    <listDown :groups="groups" :activetab="activetab"></listDown>
+    <listDown :groups="groups" :activetabProp="activetab" :showImageProp='showImage'></listDown>
   </div>
 </template>
 
@@ -16,6 +16,7 @@
     },
     data() {
       return {
+        showImage: false,
         activetab: 1,
         msg: 'Welcome to Ufinity E-claim System',
         groups: {
@@ -37,6 +38,9 @@
       }
     },
     created() {
+    },
+    methods: {
+
     }
   }
 </script>
