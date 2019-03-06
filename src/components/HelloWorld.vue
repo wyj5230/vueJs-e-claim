@@ -1,8 +1,9 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <el-input type="text" placeholder="testing"></el-input>
+    <div>
     <listDown :groups="groups" :activetabProp="activetab" :showImageProp='showImage'></listDown>
+    </div>
   </div>
 </template>
 
@@ -39,9 +40,7 @@
     },
     created() {
     },
-    methods: {
-
-    }
+    methods: {}
   }
 </script>
 
