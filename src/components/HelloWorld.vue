@@ -1,24 +1,30 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <rejectionAlert :tableData="tableData"></rejectionAlert>
     <div>
-    <listDown :groups="groups" :activetabProp="activetab" :showImageProp='showImage'></listDown>
+    <listDown :groups="groups" ></listDown>
     </div>
   </div>
 </template>
 
 <script>
-  import listDown from './ListDown.vue'
-
+  import listDown from './ListDown.vue';
+  import rejectionAlert from './RejectionAlert.vue';
   export default {
     name: 'HelloWorld',
     components: {
-      listDown
+      listDown,rejectionAlert
     },
     data() {
       return {
-        showImage: false,
-        activetab: 1,
+        tableData: {
+          category: 'taxi',
+          amount: '10',
+          date: '2016-05-02',
+          from: 'MOE SLS',
+          to: 'Main Office'
+        },
         msg: 'Welcome to Ufinity E-claim System',
         groups: {
           unverified: [{boss: 'pengwai', minion: ['yijie', 'tingwai', 'jackey']}, {

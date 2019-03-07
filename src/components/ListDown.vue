@@ -1,22 +1,22 @@
 <template>
   <el-container>
-    <el-aside width="290px">
       <div class="content">
         <div class="tabs">
-          <a v-on:click="activetab=1;showImage=false" v-bind:class="[ activetab === 1 ? 'active' : '' ]">Tab 1</a>
-          <a v-on:click="activetab=2;showImage=false" v-bind:class="[ activetab === 2 ? 'active' : '' ]">Tab 2</a>
-          <a v-on:click="activetab=3;showImage=false" v-bind:class="[ activetab === 3 ? 'active' : '' ]">Tab 3</a>
+          <a v-on:click="activetab=1;showImage=false" v-bind:class="[ activetab === 1 ? 'active' : '' ]">Unverified</a>
+          <a v-on:click="activetab=2;showImage=false" v-bind:class="[ activetab === 2 ? 'active' : '' ]">Verified</a>
+          <a v-on:click="activetab=3;showImage=false" v-bind:class="[ activetab === 3 ? 'active' : '' ]">Approved</a>
         </div>
         <div v-if="activetab === 1" class="tabcontent">
           <vue-custom-scrollbar class="scroll-area" settings='maxScrollbarLength: 30'>
             <el-menu>
-              <el-submenu v-for="(group,unverifiedIndex) in groups.unverified" :index="'1-'+unverifiedIndex" >
-                <template slot="title"><span class="bold">{{group.boss}}({{group.minion.length}})</span><i style="font-size: 15px;" class='el-icon-question'></i></template>
+              <el-submenu v-for="(group,unverifiedIndex) in groups.unverified" :index="'1-'+unverifiedIndex">
+                <template slot="title"><span class="bold ">{{group.boss}}({{group.minion.length}})</span><i
+                  class='el-icon-question'></i></template>
 
-                  <el-menu-item class="border" v-for="(minion,unverifiedChildIndex) in group.minion"
-                                :index="'1-'+unverifiedIndex+'-'+unverifiedChildIndex" @click="showHideImage(minion)">
-                    <template slot="title">{{minion}}<span class='el-icon-arrow-right arrow'><i style="font-size: 15px;" ></i></span></template>
-                  </el-menu-item>
+                <el-menu-item class="border" v-for="(minion,unverifiedChildIndex) in group.minion"
+                              :index="'1-'+unverifiedIndex+'-'+unverifiedChildIndex" @click="showHideImage(minion)">
+                  <template slot="title">{{minion}}<i class='el-icon-arrow-right arrow'></i></template>
+                </el-menu-item>
               </el-submenu>
             </el-menu>
           </vue-custom-scrollbar>
@@ -26,10 +26,10 @@
             <el-menu>
               <el-submenu v-for="(group,verifiedIndex) in groups.verified" :index="'2-'+verifiedIndex">
                 <template slot="title"><span class="bold">{{group.boss}}({{group.minion.length}})</span></template>
-                  <el-menu-item class="border" v-for="(minion,verifiedChildIndex) in group.minion"
-                                :index="'2-'+verifiedIndex+'-'+verifiedChildIndex">
-                    <template slot="title">{{minion}}<span class='el-icon-arrow-right arrow'><i style="font-size: 15px;" ></i></span></template>
-                  </el-menu-item>
+                <el-menu-item class="border" v-for="(minion,verifiedChildIndex) in group.minion"
+                              :index="'2-'+verifiedIndex+'-'+verifiedChildIndex">
+                  <template slot="title">{{minion}}<i class='el-icon-arrow-right arrow'></i></template>
+                </el-menu-item>
               </el-submenu>
             </el-menu>
           </vue-custom-scrollbar>
@@ -39,21 +39,21 @@
             <el-menu>
               <el-submenu v-for="(group,approvedIndex) in groups.approved" :index="'3-'+approvedIndex">
                 <template slot="title"><span class="bold">{{group.boss}}({{group.minion.length}})</span></template>
-                  <el-menu-item class="border" v-for="(minion,approvedChildIndex) in group.minion"
-                                :index="'3-'+approvedIndex+'-'+approvedChildIndex">
-                    <template slot="title">{{minion}}<span class='el-icon-arrow-right arrow'><i style="font-size: 15px;" ></i></span></template>
-                  </el-menu-item>
+                <el-menu-item class="border" v-for="(minion,approvedChildIndex) in group.minion"
+                              :index="'3-'+approvedIndex+'-'+approvedChildIndex">
+                  <template slot="title">{{minion}}<i class='el-icon-arrow-right arrow'></i></template>
+                </el-menu-item>
               </el-submenu>
             </el-menu>
           </vue-custom-scrollbar>
         </div>
       </div>
-    </el-aside>
-    <el-container v-if="showImage">
-      <el-main>
-        <img :src="getImgUrl(currentPic)" v-bind:alt="currentPic" height="550"/>
-      </el-main>
-    </el-container>
+    <div v-if="showImage">
+      <img :src="getImgUrl(currentPic)" height="550"/>
+    </div>
+    <div class="claimpicture" v-if="!showImage">
+      <span>Please click on a staff to view his or her claims.</span>
+    </div>
   </el-container>
 </template>
 
@@ -62,14 +62,14 @@
 
   export default {
     name: "listDown",
-    props: ['groups', 'activetabProp', 'showImageProp'],
+    props: ['groups'],
     components: {
       vueCustomScrollbar
     },
     data() {
       return {
-        activetab: this.activetabProp,
-        showImage: this.showImageProp,
+        activetab: 1,
+        showImage: false,
         currentPic: ''
       }
     },
@@ -96,7 +96,6 @@
   /* RESET */
   * {
     box-sizing: border-box;
-    margin: 0;
     padding: 0;
   }
 
@@ -111,14 +110,12 @@
 
   /* Style the tabs */
   .tabs {
-    overflow: hidden;
-    margin-left: 20px;
-    margin-bottom: -2px; // hide bottom border
+    margin-left: 30px;
   }
 
   .tabs ul {
     list-style-type: none;
-    margin-left: 20px;
+    margin-left: 30px;
   }
 
   .tabs a {
@@ -155,7 +152,6 @@
   /* Style the tab content */
   .tabcontent {
     padding: 30px;
-    box-shadow: 3px 3px 6px #e1e1e1
   }
 
   .bold {
@@ -165,19 +161,44 @@
   }
 
   .border {
-    border-up: 1px solid black;
-    border-bottom: 1px solid black;
+    border-left: 1px solid;
+    border-right: 1px solid;
+    border-bottom: 1px solid;
+    border-top: 1px solid;
   }
 
   .scroll-area {
     position: relative;
     margin: auto;
-    width: 250px;
-    height: 400px;
+    width: 450px;
+    height: 500px;
   }
 
   .arrow {
-    float:right;
+    float: right;
     padding-top: 16px;
+  }
+
+  .el-submenu {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+    border: 2px solid;
+  }
+
+  .i {
+    font-size: 15px;
+  }
+
+  .claimpicture {
+    text-align: center;
+    width: 1000px;
+    height: 700px;
+    border: 2px dashed #f69c55;
+    line-height: 700px;
+  }
+
+  span {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
   }
 </style>
