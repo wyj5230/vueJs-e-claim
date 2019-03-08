@@ -11,7 +11,7 @@
             <el-menu>
               <el-submenu v-for="(group,unverifiedIndex) in groups.unverified" :index="'1-'+unverifiedIndex">
                 <template slot="title"><span class="bold ">{{group.boss}}({{group.minion.length}})</span><i
-                  class='el-icon-question'></i></template>
+                  class='el-icon-warning'></i></template>
 
                 <el-menu-item class="border" v-for="(minion,unverifiedChildIndex) in group.minion"
                               :index="'1-'+unverifiedIndex+'-'+unverifiedChildIndex" @click="showHideImage(minion)">
@@ -170,7 +170,7 @@
   .scroll-area {
     position: relative;
     margin: auto;
-    width: 450px;
+    width: 900px;
     height: 500px;
   }
 
