@@ -9,11 +9,11 @@
         <div v-if="activetab === 1" class="tabcontent">
           <vue-custom-scrollbar class="scroll-area" settings='maxScrollbarLength: 30'>
             <el-menu>
-              <el-submenu v-for="(group,unverifiedIndex) in groups.unverified" :index="'1-'+unverifiedIndex">
+              <el-submenu class="border1" v-for="(group,unverifiedIndex) in groups.unverified" :index="'1-'+unverifiedIndex">
                 <template slot="title"><span class="bold ">{{group.boss}}({{group.minion.length}})</span><i
                   class='el-icon-warning'></i></template>
 
-                <el-menu-item class="border" v-for="(minion,unverifiedChildIndex) in group.minion"
+                <el-menu-item class="border2" v-for="(minion,unverifiedChildIndex) in group.minion"
                               :index="'1-'+unverifiedIndex+'-'+unverifiedChildIndex" @click="showHideImage(minion)">
                   <template slot="title">{{minion}}<i class='el-icon-arrow-right arrow'></i></template>
                 </el-menu-item>
@@ -24,9 +24,9 @@
         <div v-if="activetab === 2" class="tabcontent">
           <vue-custom-scrollbar class="scroll-area" settings='maxScrollbarLength: 30'>
             <el-menu>
-              <el-submenu v-for="(group,verifiedIndex) in groups.verified" :index="'2-'+verifiedIndex">
+              <el-submenu class="border1" v-for="(group,verifiedIndex) in groups.verified" :index="'2-'+verifiedIndex">
                 <template slot="title"><span class="bold">{{group.boss}}({{group.minion.length}})</span></template>
-                <el-menu-item class="border" v-for="(minion,verifiedChildIndex) in group.minion"
+                <el-menu-item class="border2" v-for="(minion,verifiedChildIndex) in group.minion"
                               :index="'2-'+verifiedIndex+'-'+verifiedChildIndex">
                   <template slot="title">{{minion}}<i class='el-icon-arrow-right arrow'></i></template>
                 </el-menu-item>
@@ -37,9 +37,9 @@
         <div v-if="activetab === 3" class="tabcontent">
           <vue-custom-scrollbar class="scroll-area" settings='maxScrollbarLength: 30'>
             <el-menu>
-              <el-submenu v-for="(group,approvedIndex) in groups.approved" :index="'3-'+approvedIndex">
+              <el-submenu class="border1" v-for="(group,approvedIndex) in groups.approved" :index="'3-'+approvedIndex">
                 <template slot="title"><span class="bold">{{group.boss}}({{group.minion.length}})</span></template>
-                <el-menu-item class="border" v-for="(minion,approvedChildIndex) in group.minion"
+                <el-menu-item class="border2" v-for="(minion,approvedChildIndex) in group.minion"
                               :index="'3-'+approvedIndex+'-'+approvedChildIndex">
                   <template slot="title">{{minion}}<i class='el-icon-arrow-right arrow'></i></template>
                 </el-menu-item>
@@ -160,10 +160,13 @@
     font-family: Montserrat;
   }
 
-  .border {
+  .border1 {
     border-left: 1px solid;
     border-right: 1px solid;
     border-bottom: 1px solid;
+    border-top: 1px solid;
+  }
+  .border2 {
     border-top: 1px solid;
   }
 
@@ -200,5 +203,11 @@
     display: inline-block;
     vertical-align: middle;
     line-height: normal;
+  }
+
+
+  .el-submenu {
+    vertical-align:middle;
+    text-align:left;
   }
 </style>
